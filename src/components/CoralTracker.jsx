@@ -3,9 +3,9 @@ import Grid from "@mui/material/Grid2";
 import React, { useState } from "react";
 
 export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThreeArray, setLevelThreeArray,
-    levelFourArray, setLevelFourArray, currentLevel, setCurrentLevel}) {
+    levelFourArray, setLevelFourArray, currentLevel, setCurrentLevel, useLocalStorage}) {
 
-	let [levelOneCount, setLevelOneCount] = useState(0);
+	let [levelOneCount, setLevelOneCount] = useLocalStorage("levelOneCount", 0);
 
   const getSelectedCount = (level) => {
     if (level === 2) {

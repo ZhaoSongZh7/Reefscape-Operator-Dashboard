@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import reef from "../assets/reef.png";
 import coral from "../assets/coral.png";
-import algae from "../assets/algae.png"; // Add algae image
+import algae from "../assets/algae.png";
 
 import { Box, Button } from "@mui/material";
 

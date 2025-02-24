@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import { styled } from "@mui/material/styles";
 import viteLogo from "/vite.svg";
@@ -15,30 +15,35 @@ import Reef from "./components/Reef";
 import CoOp from "./components/CoOp";
 
 function App() {
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    ...theme.applyStyles("dark", {
-      backgroundColor: "#1A2027",
-    }),
-  }));
+  function useLocalStorage(key, initialValue) {
+    const [storedValue, setStoredValue] = useState(() => {
+      try {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : initialValue;
+      } catch (error) {
+        return initialValue;
+      }
+    });
 
-  const [levelTwoArray, setLevelTwoArray] = useState([false, false, false, false, false, false, false, false, false, false, false, false]);
-  const [levelThreeArray, setLevelThreeArray] = useState([false, false, false, false, false, false, false, false, false, false, false, false]);
-  const [levelFourArray, setLevelFourArray] = useState([false, false, false, false, false, false, false, false, false, false, false, false]);
-  const [algaeArray, setAlgaeArray] = useState([false, false, false, false, false, false]);
+    useEffect(() => {
+      localStorage.setItem(key, JSON.stringify(storedValue));
+    }, [key, storedValue]);
 
+    return [storedValue, setStoredValue];
+  }
 
-  const [currentLevel, setCurrentLevel] = useState(4);
+  const [levelTwoArray, setLevelTwoArray] = useLocalStorage('levelTwoArray', [false, false, false, false, false, false, false, false, false, false, false, false]);
+  const [levelThreeArray, setLevelThreeArray] = useLocalStorage('levelThreeArray', [false, false, false, false, false, false, false, false, false, false, false, false]);
+  const [levelFourArray, setLevelFourArray] = useLocalStorage('levelFourArray', [false, false, false, false, false, false, false, false, false, false, false, false]);
+  const [algaeArray, setAlgaeArray] = useLocalStorage('algaeArray', [false, false, false, false, false, false]);
+
+  const [currentLevel, setCurrentLevel] = useLocalStorage('currentLevel', 4);
 
   return (
     <>
       <Box sx={{ height: '100vh', width: '100vw'}}>
         <Grid sx={{ height: '100%'}} container spacing={2} alignItems={"center"}>
-          <CoralTracker levelTwoArray={levelTwoArray} setLevelTwoArray={setLevelTwoArray} levelThreeArray={levelThreeArray} setLevelThreeArray={setLevelThreeArray}
+          <CoralTracker useLocalStorage={useLocalStorage} levelTwoArray={levelTwoArray} setLevelTwoArray={setLevelTwoArray} levelThreeArray={levelThreeArray} setLevelThreeArray={setLevelThreeArray}
               levelFourArray={levelFourArray} setLevelFourArray={setLevelFourArray} currentLevel={currentLevel} setCurrentLevel={setCurrentLevel}/>
           <Grid sx={{ height: '100%'}} size={8} container spacing={2} direction={"column"} justifyContent={"space-around"} alignItems={"center"}>
             <Grid size={8}>
@@ -52,6 +57,9 @@ function App() {
         </Grid>
         <Box sx={{fontWeight: "bold", fontSize: "2vw", fontFamily: "Roboto", position: "absolute", top: "10px", right: "10px"}}>
           CURRENT LEVEL: {currentLevel}
+        </Box>
+        <Box sx={{position: "absolute", top: "60px", right: "20px"}}>
+          <CoOp useLocalStorage={useLocalStorage} />
         </Box>
       </Box>
     </>
