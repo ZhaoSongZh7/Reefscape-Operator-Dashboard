@@ -17,8 +17,8 @@ export default function Reef({
   algaeArray,
   setAlgaeArray,
 }) {
-  const coralRadius = 400; // Distance of corals from center
-  const algaeRadius = 200; // Algae closer to center
+  const coralRadius = 270; // Distance of corals from center
+  const algaeRadius = 130; // Algae closer to center
 
   // Custom angles for coral (aligned with purple branches)
   const coralAngles = [15, 45, 75, 105, 135, 165, 195, 225, 255, 285, 315, 345];
@@ -72,7 +72,7 @@ export default function Reef({
       }}
     >
       {/* Hexagonal Reef */}
-      <img src={reef} width={"300vh"} style={{ position: "relative" }} />
+      <img src={reef} width={"380px"} style={{ position: "relative" }} />
 
       {/* Coral Positions */}
       {coralAngles.map((angle, index) => {

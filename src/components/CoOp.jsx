@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import notCoop from "../assets/not-coop.png";
 import coOp from "../assets/coop.png";
 
-export default function CoOp({ useLocalStorage={useLocalStorage} }) {
+export default function CoOp({ useLocalStorage, Item}) {
   const [coopertition, setCoopertition] = useLocalStorage("Coopertition", false)
   
   const handleCoopClick = () => {
@@ -13,10 +13,10 @@ export default function CoOp({ useLocalStorage={useLocalStorage} }) {
   return (
     <>
       <Box sx={{display: 'flex'}}>
-        <Box sx={{ width: 250, fontWeight: "bold", fontSize: "2vw", fontFamily: "Roboto", position: "absolute", top: "10px", right: "30px"}}>
-          CO-OP: {coopertition ? "YES" : "NO"}
-          <Button onClick={handleCoopClick} sx={{bgcolor: coopertition ? "dodgerblue" : "yellow", width: "10vw", height: "20vh", borderRadius: "20%"}}>
-          <img width={"120vw"} height={"120vh"} src={coopertition ? coOp : notCoop}/>
+        <Box sx={{ width: 250, fontWeight: "bold", fontSize: "40px", fontFamily: "Roboto", position: "absolute", top: "35px", right: "30px"}}>
+          <Item sx={{fontWeight: "bold", fontSize: "40px", fontFamily: "Roboto", marginBottom: '20px'}}>CO-OP: {coopertition ? "YES" : "NO"}</Item>
+          <Button onClick={handleCoopClick} sx={{bgcolor: coopertition ? "dodgerblue" : "yellow", width: "170px", height: "170px", borderRadius: "20%"}}>
+            <img width={"170px"} height={"170px"} src={coopertition ? coOp : notCoop}/>
         </Button>
         </Box>
       </Box>

@@ -32,6 +32,17 @@ function App() {
     return [storedValue, setStoredValue];
   }
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    ...theme.applyStyles("dark", {
+      backgroundColor: "#1A2027",
+    }),
+  }));
+
   const [levelTwoArray, setLevelTwoArray] = useLocalStorage('levelTwoArray', [false, false, false, false, false, false, false, false, false, false, false, false]);
   const [levelThreeArray, setLevelThreeArray] = useLocalStorage('levelThreeArray', [false, false, false, false, false, false, false, false, false, false, false, false]);
   const [levelFourArray, setLevelFourArray] = useLocalStorage('levelFourArray', [false, false, false, false, false, false, false, false, false, false, false, false]);
@@ -50,16 +61,13 @@ function App() {
               <Reef levelTwoArray={levelTwoArray} setLevelTwoArray={setLevelTwoArray} levelThreeArray={levelThreeArray} setLevelThreeArray={setLevelThreeArray}
               levelFourArray={levelFourArray} setLevelFourArray={setLevelFourArray} currentLevel={currentLevel} setCurrentLevel={setCurrentLevel} algaeArray={algaeArray} setAlgaeArray={setAlgaeArray}/>
             </Grid>
-            {/* <Grid size={2}>
-              <CoOp />
-            </Grid> */}
           </Grid>
         </Grid>
-        <Box sx={{fontWeight: "bold", fontSize: "2vw", fontFamily: "Roboto", position: "absolute", top: "10px", right: "10px"}}>
+        <Item sx={{fontWeight: "bold", fontSize: "40px", fontFamily: "Roboto", position: "absolute", top: "10px", right: "10px"}}>
           CURRENT LEVEL: {currentLevel}
-        </Box>
+        </Item>
         <Box sx={{position: "absolute", top: "60px", right: "20px"}}>
-          <CoOp useLocalStorage={useLocalStorage} />
+          <CoOp useLocalStorage={useLocalStorage} Item={Item}/>
         </Box>
       </Box>
     </>
