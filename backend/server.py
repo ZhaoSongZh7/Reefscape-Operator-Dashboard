@@ -1,11 +1,7 @@
-# Filename - server.py
-
-# Import flask and datetime module for showing date and time
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS
 from networktables import NetworkTables
 import datetime
-# To see messages from networktables, you must setup logging
 import logging
 import json
 
@@ -18,7 +14,6 @@ def get_network_tables():
     sd = NetworkTables.getTable("SmartDashboard")
 
     return sd
-
 
 sd = get_network_tables()
 
