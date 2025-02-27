@@ -17,7 +17,6 @@ export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThr
     }
     return 0;
   };
-
   return (
     <>
       <Grid
