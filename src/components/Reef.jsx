@@ -21,10 +21,12 @@ export default function Reef({
   const algaeRadius = 130; // Algae closer to center
 
   // Custom angles for coral (aligned with purple branches)
-  const coralAngles = [15, 45, 75, 105, 135, 165, 195, 225, 255, 285, 315, 345];
+  // const coralAngles = [15, 45, 75, 105, 135, 165, 195, 225, 255, 285, 315, 345];
+  const coralAngles = [105, 75, 45, 15, 345, 315, 285, 255, 225, 195, 165, 135]
 
   // Custom angles for algae (aligned with hexagon sides)
-  const algaeAngles = [0, 60, 120, 180, 240, 300];
+  // const algaeAngles = [330, 270, 210, 150, 90, 30];
+  const algaeAngles = [90, 30, 330, 270, 210, 150];
 
   // Function to handle coral click
   const handleCoralClick = (index) => {
@@ -72,7 +74,7 @@ export default function Reef({
       }}
     >
       {/* Hexagonal Reef */}
-      <img src={reef} width={"380px"} style={{ position: "relative" }} />
+      <img src={reef} width={"380px"} style={{ position: "relative", transform: "rotate(90deg)"}} />
 
       {/* Coral Positions */}
       {coralAngles.map((angle, index) => {

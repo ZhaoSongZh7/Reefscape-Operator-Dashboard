@@ -46,80 +46,61 @@ function App() {
     }
   };
 
+  function getDataFromServer() {
+    axios({
+      method: "GET",
+      url:"http://127.0.0.1:5000/networktabledata",
+    })
+    .then((response) => {
+      console.log("Full response from server:", response); // Log entire response
+      console.log("Response data:", response.data.ds_time); // Log just the data
+      console.log("Response data:", response.data.is_connected); // Log just the data
+
+      const res = response.data
+      setDsTime(res.ds_time)
+      setIsConnected(res.is_connected)
+
+    }).catch((error) => {
+      console.log(error)
+    })}
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#fff",
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: "center",
+    fontWeight: "bold", 
+    fontSize: "40px", 
+    fontFamily: "Roboto",
     color: theme.palette.text.secondary,
     ...theme.applyStyles("dark", {
       backgroundColor: "#1A2027",
     }),
   }));
 
-  const [levelTwoArray, setLevelTwoArray] = useLocalStorage("levelTwoArray", [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-  const [levelThreeArray, setLevelThreeArray] = useLocalStorage(
-    "levelThreeArray",
-    [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ]
-  );
-  const [levelFourArray, setLevelFourArray] = useLocalStorage(
-    "levelFourArray",
-    [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ]
-  );
-  const [algaeArray, setAlgaeArray] = useLocalStorage("algaeArray", [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [levelTwoArray, setLevelTwoArray] = useLocalStorage("levelTwoArray", [false, false, false, false, false, false, false, false, false, false, false, false]);
+  const [levelThreeArray, setLevelThreeArray] = useLocalStorage("levelThreeArray", [false,false,false,false,false,false, false, false, false, false, false, false]);
+  const [levelFourArray, setLevelFourArray] = useLocalStorage("levelFourArray", [false, false, false, false, false, false, false, false, false, false, false, false]);
+  const [coOpArray, setCoOpArray] = useLocalStorage("coOpArray", [false, false, false, false]);
+
+  const [algaeArray, setAlgaeArray] = useLocalStorage("algaeArray", [false, false, false, false, false, false]);
 
   const [currentLevel, setCurrentLevel] = useLocalStorage("currentLevel", 4);
+
+  const [dsTime, setDsTime] = useLocalStorage("dsTime", -1);
+  const [isConnected, setIsConnected] = useLocalStorage("isConnected", false);
 
   useEffect(() => {
     sendDataToServer();
   }, [levelTwoArray, levelThreeArray, levelFourArray]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getDataFromServer(); // Call your function every second
+    }, 1000);
+  
+    return () => clearInterval(interval); // Cleanup when component unmounts
+  }, []);
   return (
     <>
       <Box sx={{ height: "100vh", width: "100vw" }}>
@@ -139,6 +120,8 @@ function App() {
             setLevelFourArray={setLevelFourArray}
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
+            coOpArray={coOpArray}
+            setCoOpArray={setCoOpArray}
           />
           <Grid
             sx={{ height: "100%" }}
@@ -161,15 +144,14 @@ function App() {
                 setCurrentLevel={setCurrentLevel}
                 algaeArray={algaeArray}
                 setAlgaeArray={setAlgaeArray}
+                coOpArray={coOpArray}
+                setCoOpArray={setCoOpArray}
               />
             </Grid>
           </Grid>
         </Grid>
         <Item
           sx={{
-            fontWeight: "bold",
-            fontSize: "40px",
-            fontFamily: "Roboto",
             position: "absolute",
             top: "10px",
             right: "10px",
@@ -178,7 +160,17 @@ function App() {
           CURRENT LEVEL: {currentLevel}
         </Item>
         <Box sx={{ position: "absolute", top: "60px", right: "20px" }}>
-          <CoOp useLocalStorage={useLocalStorage} Item={Item} />
+          <CoOp useLocalStorage={useLocalStorage} 
+            Item={Item}
+            levelTwoArray={levelTwoArray} 
+            levelThreeArray={levelThreeArray}
+            levelFourArray={levelFourArray} 
+            coOpArray={coOpArray}
+            setCoOpArray={setCoOpArray} />
+        </Box>
+        <Box sx={{ position: "absolute", bottom: "10px", right: "40px", width: "300px", display: 'flex', justifyContent: "space-around"}}>
+          <Item sx={{ fontSize: "20px"}}>Connected: {isConnected ? "YES" : "NO"}</Item>
+          <Item sx={{ fontSize: "20px"}}>DS Time: {dsTime}</Item>
         </Box>
       </Box>
     </>

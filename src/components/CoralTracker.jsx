@@ -1,11 +1,20 @@
 import { Box, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 
 export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThreeArray, setLevelThreeArray,
-    levelFourArray, setLevelFourArray, currentLevel, setCurrentLevel, useLocalStorage}) {
+    levelFourArray, setLevelFourArray, currentLevel, setCurrentLevel, useLocalStorage, coOpArray,
+    setCoOpArray}) {
 
 	let [levelOneCount, setLevelOneCount] = useLocalStorage("levelOneCount", 0);
+
+  const updateCoOpArray = (array, level) => {
+    setCoOpArray(prevArray => {
+      const updatedArray = [...prevArray];
+      updatedArray[level - 1] = level === 1 ? levelOneCount >= 5 : array.filter(selected => selected).length >= 5;
+      return updatedArray;
+    });
+  }
 
   const getSelectedCount = (level) => {
     if (level === 2) {
@@ -17,6 +26,24 @@ export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThr
     }
     return 0;
   };
+
+  useEffect(() => {
+    updateCoOpArray(levelTwoArray, 2);
+  }, [levelTwoArray]);
+  
+  useEffect(() => {
+    updateCoOpArray(levelThreeArray, 3);
+  }, [levelThreeArray]);
+  
+  useEffect(() => {
+    updateCoOpArray(levelFourArray, 4);
+  }, [levelFourArray]);
+  
+  useEffect(() => {
+    updateCoOpArray(coOpArray, 1);
+  }, [levelOneCount]);
+
+
   return (
     <>
       <Grid
@@ -29,17 +56,13 @@ export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThr
       >
         {Array.from(Array(3)).map((_, index) => (
           <Grid item xs key={index} sx={{ flex: 1, height: "300px" }}>
-			{getSelectedCount(4 - index) != 12 ? 
 			<Button onClick={() => {
                 setCurrentLevel(4 - index);
-            }} key={index} sx={{ width: "500px", height: "23vh", fontSize: "50px", borderRadius:"10px", borderColor: "black", border: 1}}>
-              {getSelectedCount(4 - index)}
+            }} key={index} sx={{ width: "500px", height: "23vh", fontSize: "50px", borderRadius:"10px", borderColor: "black", border: 1, 
+              color: (currentLevel === 4 - index || getSelectedCount(4 - index) == 12) ? "white" : "black", 
+              bgcolor: getSelectedCount(4 - index) == 12 ? "green" : currentLevel === 4 - index ? "dodgerblue" : "white"}}>
+              {getSelectedCount(4 - index) !== 12 ? getSelectedCount(4 - index) : "DONE!"}
             </Button>
-			: <Button onClick={() => {
-                setCurrentLevel(4 - index);
-            }} key={index} sx={{ width: "500px", height: "23vh", fontSize: "50px", borderRadius:"10px", bgcolor: "red", color: "white", border: 1}}>
-              DONE!
-            </Button>}
           </Grid>
         ))}
 		<Grid container justifyContent={"space-around"}>
@@ -48,7 +71,7 @@ export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThr
 				<Button onClick={() => {if (levelOneCount != 0) {setLevelOneCount(--levelOneCount)}}} sx={{ width: "250px", height: "100%", fontWeight: "bold", color: "green", fontSize: "50px", borderRadius:"10px 0 0 10px", borderColor: "black", border: 1, borderRight: 0 }}>
 					-
 				</Button>
-				<Button onClick={() => setLevelOneCount(++levelOneCount)} sx={{ width: "250px", height: "100%", fontWeight: "bold", color: "green", fontSize: "50px", borderRadius:"0 10px 10px 0", borderColor: "black", border: 1, borderLeft: 0 }}>
+				<Button onClick={() => {setLevelOneCount(++levelOneCount)}} sx={{ width: "250px", height: "100%", fontWeight: "bold", color: "green", fontSize: "50px", borderRadius:"0 10px 10px 0", borderColor: "black", border: 1, borderLeft: 0 }}>
 					+
 				</Button>
 			</Grid>

@@ -4,6 +4,8 @@ from networktables import NetworkTables
 import datetime
 import logging
 import json
+import threading
+import time
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -11,11 +13,11 @@ x = datetime.datetime.now()
 
 def get_network_tables():
     NetworkTables.initialize(server='10.17.96.2')  # Replace with your RoboRIO's hostname or IP
-    sd = NetworkTables.getTable("SmartDashboard")
+    return NetworkTables.getTable("SmartDashboard"), NetworkTables.getTable("FMSInfo")
 
-    return sd
-
-sd = get_network_tables()
+sd_table, fms_table = get_network_tables()
+ds_time = -1
+robot_status = {"connected": False}
 
 # Initializing flask app
 app = Flask(__name__)
@@ -48,18 +50,42 @@ def update_data():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
+
+@app.route('/networktabledata')
+def get_data():
+    print("Sending ds_time:", ds_time)  # Log it in the Flask console
+    response = {
+        "is_connected": robot_status["connected"],
+        "ds_time": ds_time
+    }
+    return jsonify(response)
+
 def get_previous_data(key):
     # Retrieve the stored value from NetworkTables and parse it as a list.
-    stored_value = sd.getString(key, "[]")  # Default to "[]" if key doesn't exist
+    stored_value = sd_table.getString(key, "[]")  # Default to "[]" if key doesn't exist
     return json.loads(stored_value)  # Convert string back to a Python list
 
 def log_changes(key, old_data, new_data):
     # Logs and updates only the changed values.
     if old_data != new_data:
         logging.info(f"{key} changed: {old_data} -> {new_data}")
-        sd.putString(key, json.dumps(new_data))  # Update NetworkTables with new value
-        
+        sd_table.putString(key, json.dumps(new_data))  # Update NetworkTables with new value
+
+def get_updated_network_tables():
+    global ds_time
+    while True:
+        ds_time = sd_table.getNumber("Driver Station Time", -1)
+        is_connected = fms_table.getBoolean("RobotConnected", False)
+        if (robot_status["connected"] != is_connected):
+            robot_status["connected"] = is_connected
+
+        time.sleep(0.5)
+        print("Updated Driver Station Time: ", ds_time)
+
+# Start the background thread
+thread = threading.Thread(target=get_updated_network_tables, daemon=True)
+thread.start()
+
 # Running app
 if __name__ == '__main__':
     app.run(debug=True)
