@@ -26,10 +26,10 @@ export default function CoOp({ useLocalStorage, Item, coOpArray, setCoOpArray, l
     <>
       <Box sx={{display: 'flex'}}>
         <Box sx={{ width: 250, fontWeight: "bold", fontSize: "40px", fontFamily: "Roboto", position: "absolute", top: "35px", right: "30px"}}>
-          <Item sx={{marginBottom: '20px', bgcolor: coopertition ? "green" : "white", 
-            color: coopertition ? "white" : "theme.palette.text.secondary"}}>CO-OP: {coopertition ? "YES" : "NO"}</Item>
+          <Item sx={{marginBottom: '20px', bgcolor: coopertition ? "limegreen" : "crimson", 
+            color: "white"}}>CO-OP: {coopertition ? "YES" : "NO"}</Item>
           <Item sx={{marginBottom: '20px', fontSize:"25px", 
-            bgcolor: obtainedCoralRP() ? "green" : "white", color: obtainedCoralRP() ? "white" : "theme.palette.text.secondary"}}>Obtained Coral RP: {obtainedCoralRP() ? "YES" : "NO"}</Item>
+            bgcolor: obtainedCoralRP() ? "limegreen" : "crimson", color: "white"}}>Obtained Coral RP: {obtainedCoralRP() ? "YES" : "NO"}</Item>
           <Button onClick={handleCoopClick} sx={{bgcolor: coopertition ? "dodgerblue" : "yellow", width: "170px", height: "170px", borderRadius: "20%"}}>
             <img width={"170px"} height={"170px"} src={coopertition ? coOp : notCoop}/>
         </Button>

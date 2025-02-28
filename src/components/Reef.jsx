@@ -28,6 +28,8 @@ export default function Reef({
   // const algaeAngles = [330, 270, 210, 150, 90, 30];
   const algaeAngles = [90, 30, 330, 270, 210, 150];
 
+  let levelTwoAlgae = false;
+
   // Function to handle coral click
   const handleCoralClick = (index) => {
     let updatedLevelArray;
@@ -71,10 +73,11 @@ export default function Reef({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        userSelect: "none"
       }}
     >
       {/* Hexagonal Reef */}
-      <img src={reef} width={"380px"} style={{ position: "relative", transform: "rotate(90deg)"}} />
+      <img src={reef} width={"700px"} style={{ position: "relative", transform: "rotate(90deg)", userSelect: "none"}} />
 
       {/* Coral Positions */}
       {coralAngles.map((angle, index) => {
@@ -99,10 +102,12 @@ export default function Reef({
               top: `calc(50% + ${y}px)`,
               left: `calc(50% + ${x}px)`,
               transform: "translate(-50%, -50%)",
-              bgcolor: isSelected ? "red" : "green",
+              border: 2,
+              borderColor: "black",
+              bgcolor: isSelected ? "crimson" : "limegreen",
             }}
           >
-            <img src={coral} width={100} height={100} />
+            <img src={coral} width={90} height={90} />
           </Button>
         );
       })}
@@ -123,10 +128,12 @@ export default function Reef({
               top: `calc(50% + ${y}px)`,
               left: `calc(50% + ${x}px)`,
               transform: "translate(-50%, -50%)",
-              bgcolor: algaeArray[index] ? "red" : "green",
+              border: 2,
+              borderColor: "black",
+              bgcolor: algaeArray[index] ? "crimson" : "limegreen",
             }}
           >
-            <img src={algae} width={90} height={90} />
+            <img src={algae} width={index % 2 == 0 ? 90 : 70} height={index % 2 == 0 ? 90 : 70} />
           </Button>
         );
       })}

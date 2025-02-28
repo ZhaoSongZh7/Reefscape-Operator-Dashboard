@@ -75,7 +75,7 @@ def get_updated_network_tables():
     global ds_time
     while True:
         ds_time = sd_table.getNumber("Driver Station Time", -1)
-        is_connected = fms_table.getBoolean("RobotConnected", False)
+        is_connected = sd_table.getBoolean("FMS Connected", False)
         if (robot_status["connected"] != is_connected):
             robot_status["connected"] = is_connected
 
