@@ -44,9 +44,16 @@ function App() {
 
         const res = response.data
         setDsTime(res.ds_time)
-        setIsConnected(res.is_connected)
+        setIsFieldConnected(res.is_connected)
+
+        if (response.status) {
+          setIsServerConnected(true);
+        } else {
+          setIsServerConnected(false);
+        }
 
       }).catch((error) => {
+        setIsServerConnected(false);
         console.log(error)
       })
   }
@@ -76,7 +83,8 @@ function App() {
   const [currentLevel, setCurrentLevel] = useLocalStorage("currentLevel", 4);
 
   const [dsTime, setDsTime] = useLocalStorage("dsTime", -1);
-  const [isConnected, setIsConnected] = useLocalStorage("isConnected", false);
+  const [isFieldConnected, setIsFieldConnected] = useLocalStorage("isConnected", false);
+  const [isServerConnected, setIsServerConnected] = useLocalStorage("isServerConnected", false);
 
   const sendDataToServer = useCallback(async () => {
     try {
@@ -85,7 +93,7 @@ function App() {
         levelThreeArray,
         levelFourArray,
       });
-
+      
       console.log("Response from server:", response.data);
     } catch (error) {
       console.error("Error sending data to server:", error);
@@ -192,7 +200,8 @@ function App() {
             </Box>
             <Box sx={{ position: "absolute", bottom: "20px", right: "30px", width: "300px", display: 'flex', flexDirection: 'column', rowGap: "10px", justifyContent: "space-between", userSelect: "none" }}>
               <Button onClick={resetStates} sx={{ fontSize: "25px", border: 1, borderColor: "dodgeyblue"}}>Clear</Button>
-              <Item sx={{ fontSize: "25px", border: 1, padding: "12px 0 12px 0"}}>Field Connected: {isConnected ? "YES" : "NO"}</Item>
+              <Item sx={{ fontSize: "25px", color: "white", bgcolor: isServerConnected ? 'limegreen' : 'crimson', border: 1, padding: "12px 0 12px 0"}}>Server Connected: {isServerConnected ? "YES" : "NO"}</Item>
+              <Item sx={{ fontSize: "25px", color: "white", bgcolor: isFieldConnected ? 'limegreen' : 'crimson', border: 1, padding: "12px 0 12px 0"}}>Field Connected: {isFieldConnected ? "YES" : "NO"}</Item>
             </Box>
           </Grid>
         </Grid>
