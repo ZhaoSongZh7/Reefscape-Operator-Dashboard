@@ -32,20 +32,6 @@ function App() {
     return [storedValue, setStoredValue];
   }
 
-  // const sendDataToServer = async () => {
-  //   try {
-  //     const response = await axios.post("http://127.0.0.1:5000/update", {
-  //       levelTwoArray,
-  //       levelThreeArray,
-  //       levelFourArray,
-  //     });
-
-  //     console.log("Response from server:", response.data);
-  //   } catch (error) {
-  //     console.error("Error sending data to server:", error);
-  //   }
-  // };
-
   function getDataFromServer() {
     axios({
       method: "GET",
@@ -79,6 +65,7 @@ function App() {
     }),
   }));
 
+  const [levelOneCount, setLevelOneCount] = useLocalStorage("levelOneCount", 0);
   const [levelTwoArray, setLevelTwoArray] = useLocalStorage("levelTwoArray", [false, false, false, false, false, false, false, false, false, false, false, false]);
   const [levelThreeArray, setLevelThreeArray] = useLocalStorage("levelThreeArray", [false, false, false, false, false, false, false, false, false, false, false, false]);
   const [levelFourArray, setLevelFourArray] = useLocalStorage("levelFourArray", [false, false, false, false, false, false, false, false, false, false, false, false]);
@@ -116,6 +103,14 @@ function App() {
     return () => clearInterval(interval); // Cleanup when component unmounts
   }, [sendDataToServer]);
 
+  const resetStates = () => {
+    setLevelOneCount(0);
+    setLevelTwoArray([false, false, false, false, false, false, false, false, false, false, false, false]);
+    setLevelThreeArray([false, false, false, false, false, false, false, false, false, false, false, false]);
+    setLevelFourArray([false, false, false, false, false, false, false, false, false, false, false, false]);
+    setAlgaeArray([false, false, false, false, false, false])
+  }
+
   return (
     <>
       <Box sx={{ height: "100vh", width: "100vw" }}>
@@ -123,10 +118,13 @@ function App() {
           sx={{ height: "100%" }}
           container
           spacing={2}
+          size={4}
           alignItems={"center"}
         >
           <CoralTracker
             useLocalStorage={useLocalStorage}
+            levelOneCount={levelOneCount}
+            setLevelOneCount={setLevelOneCount}
             levelTwoArray={levelTwoArray}
             setLevelTwoArray={setLevelTwoArray}
             levelThreeArray={levelThreeArray}
@@ -140,7 +138,7 @@ function App() {
           />
           <Grid
             sx={{ height: "100%" }}
-            size={7}
+            size={5}
             container
             spacing={2}
             direction={"column"}
@@ -163,31 +161,41 @@ function App() {
                 setCoOpArray={setCoOpArray}
               />
             </Grid>
+            <Item sx={{ fontSize: "40px", position: "absolute", top: "10px", right: "45%", transform: "translateX(50%)", border: 1,
+                padding: "12px 12px 12px 12px", userSelect: "none"}}>DS Time: {dsTime}</Item>
+          </Grid>
+          <Grid sx={{ height: "100%"}}
+            container
+            size={3}
+            spacing={2}
+            alignItems={"center"}>
+            <Item
+              sx={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                userSelect: "none",
+                border: 1,
+                padding: "12px 10px 12px 10px"
+              }}
+            >
+              CURRENT LEVEL: {currentLevel}
+            </Item>
+            <Box sx={{ position: "absolute", top: "78px", right: "20px", userSelect: "none"}}>
+              <CoOp useLocalStorage={useLocalStorage}
+                Item={Item}
+                levelTwoArray={levelTwoArray}
+                levelThreeArray={levelThreeArray}
+                levelFourArray={levelFourArray}
+                coOpArray={coOpArray}
+                setCoOpArray={setCoOpArray} />
+            </Box>
+            <Box sx={{ position: "absolute", bottom: "20px", right: "30px", width: "300px", display: 'flex', flexDirection: 'column', rowGap: "10px", justifyContent: "space-between", userSelect: "none" }}>
+              <Button onClick={resetStates} sx={{ fontSize: "25px", border: 1, borderColor: "dodgeyblue"}}>Clear</Button>
+              <Item sx={{ fontSize: "25px", border: 1, padding: "12px 0 12px 0"}}>Field Connected: {isConnected ? "YES" : "NO"}</Item>
+            </Box>
           </Grid>
         </Grid>
-        <Item
-          sx={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            userSelect: "none"
-          }}
-        >
-          CURRENT LEVEL: {currentLevel}
-        </Item>
-        <Box sx={{ position: "absolute", top: "60px", right: "20px", userSelect: "none" }}>
-          <CoOp useLocalStorage={useLocalStorage}
-            Item={Item}
-            levelTwoArray={levelTwoArray}
-            levelThreeArray={levelThreeArray}
-            levelFourArray={levelFourArray}
-            coOpArray={coOpArray}
-            setCoOpArray={setCoOpArray} />
-        </Box>
-        <Box sx={{ position: "absolute", bottom: "20px", right: "30px", width: "690px", display: 'flex', justifyContent: "space-between", userSelect: "none" }}>
-          <Item sx={{ fontSize: "30px" }}>DS Time: {dsTime}</Item>
-          <Item sx={{ fontSize: "30px" }}>Field Connected: {isConnected ? "YES" : "NO"}</Item>
-        </Box>
       </Box>
     </>
   );

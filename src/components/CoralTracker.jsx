@@ -4,9 +4,7 @@ import React, { useState, useEffect } from "react";
 
 export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThreeArray, setLevelThreeArray,
   levelFourArray, setLevelFourArray, currentLevel, setCurrentLevel, useLocalStorage, coOpArray,
-  setCoOpArray }) {
-
-  let [levelOneCount, setLevelOneCount] = useLocalStorage("levelOneCount", 0);
+  setCoOpArray, levelOneCount, setLevelOneCount }) {
 
   const updateCoOpArray = (array, level) => {
     setCoOpArray(prevArray => {
@@ -61,7 +59,7 @@ export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThr
               setCurrentLevel(4 - index);
             }} key={index} sx={{
               width: "100%", height: "23vh", fontSize: "50px", borderRadius: "10px", borderColor: "black", border: (currentLevel === 4 - index || getSelectedCount(4 - index) == 12) ? 0 : 1,
-              color: (currentLevel === 4 - index || getSelectedCount(4 - index) == 12) ? "white" : "black",
+              color: (currentLevel === 4 - index || getSelectedCount(4 - index) == 12) ? "white" : "dodgeyblue",
               padding: '0px',
               bgcolor: getSelectedCount(4 - index) == 12 ? "limegreen" : currentLevel === 4 - index ? "dodgerblue" : "white"
             }}>
@@ -71,7 +69,7 @@ export default function CoralTracker({ levelTwoArray, setLevelTwoArray, levelThr
         ))}
         <Grid item xs sx={{ height: "23vh" }} position={'relative'}>
             <Box sx={{ width: "100%", fontWeight: "bold", color: "limegreen", fontSize: "50px", fontFamily: "Roboto", position: "absolute", top: "50%", transform: "translateY(-50%)"}}>{levelOneCount}</Box>
-            <Button onClick={() => { if (levelOneCount != 0) { setLevelOneCount(--levelOneCount) } }} sx={{ width: "50%", height: "23vh", fontWeight: "bold", color: "limegreen", fontSize: "50px", borderRadius: "10px 0 0 10px", borderColor: "black", border: 1, borderRight: 0, padding: '0px', }}>
+            <Button onClick={() => { if (levelOneCount != 0) { setLevelOneCount(--levelOneCount) } }} sx={{ width: "50%", height: "23vh", fontWeight: "bold", color: "limegreen", fontSize: "50px", borderRadius: "10px 0 0 10px", borderColor: "black", border: 1, borderRight: 0, padding: '0px'}}>
               -
             </Button>
             <Button onClick={() => { setLevelOneCount(++levelOneCount) }} sx={{ width: "50%", height: "23vh", fontWeight: "bold", color: "limegreen", fontSize: "50px", borderRadius: "0 10px 10px 0", borderColor: "black", border: 1, borderLeft: 0, padding: '0px' }}>
