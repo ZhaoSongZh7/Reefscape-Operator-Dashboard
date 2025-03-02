@@ -7,12 +7,15 @@ import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import axios from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import './App.css';
 import { Box } from '@mui/material';
 import CoralTracker from './components/CoralTracker';
 import Reef from './components/Reef';
 import CoOp from './components/CoOp';
+import { SimpleDialog } from './components/SimpleDialogue';
 
 function App() {
     function useLocalStorage(key, initialValue) {
@@ -160,6 +163,9 @@ function App() {
         false
     );
 
+    const [open, setOpen] = useLocalStorage("clearDialog", false);
+
+
     const sendDataToServer = useCallback(async () => {
         try {
             const response = await axios.post('http://127.0.0.1:5000/update', {
@@ -174,6 +180,16 @@ function App() {
             console.error('Error sending data to server:', error);
         }
     }, [levelTwoArray, levelThreeArray, levelFourArray, algaeArray]);
+
+    
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
 
     useEffect(() => {
         sendDataToServer();
@@ -321,11 +337,11 @@ function App() {
                         display: 'flex',
                         flex: 0.25,
                         flexDirection: 'column',
+                        userSelect: 'none'
                     }}
                 >
                     <Item
                         sx={{
-                            userSelect: 'none',
                             border: 1,
                             marginBottom: '10px',
                         }}
@@ -348,19 +364,21 @@ function App() {
                             display: 'flex',
                             flexDirection: 'column',
                             rowGap: '10px',
-                            userSelect: 'none',
                         }}
                     >
-                        <Button
-                            onClick={resetStates}
-                            sx={{
-                                fontSize: '25px',
-                                border: 1,
-                                borderColor: 'dodgeyblue',
-                            }}
-                        >
+                        <Button variant="outlined" onClick={handleClickOpen}
+                        sx={{
+                            fontSize: '25px',
+                            border: 1,
+                            borderColor: 'dodgeyblue',
+                        }}>
                             Clear
                         </Button>
+                        <SimpleDialog
+                            open={open}
+                            close={handleClose}
+                            resetStates={resetStates}
+                        />
                         <Item
                             sx={{
                                 fontSize: '25px',

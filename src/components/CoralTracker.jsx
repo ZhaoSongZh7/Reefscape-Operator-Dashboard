@@ -92,7 +92,7 @@ export default function CoralTracker({
                         : 'DONE!'}
                 </Button>
             ))}
-            <Box position={'relative'} sx={{ display: 'flex', flex: 1 }}>
+            <Box position={'relative'} sx={{ display: 'flex', flex: 1, userSelect: 'none' }}>
                 <Box
                     sx={{
                         fontWeight: 'bold',
@@ -136,7 +136,7 @@ export default function CoralTracker({
                         color: 'limegreen',
                         borderRadius: '0px 10px 10px 0px',
                         border: 1,
-                        borderLeft: 0,
+                        borderLeft: 0
                     }}
                 >
                     +
