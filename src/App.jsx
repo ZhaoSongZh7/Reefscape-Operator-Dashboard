@@ -343,7 +343,6 @@ function App() {
                         coOpArray={coOpArray}
                         setCoOpArray={setCoOpArray}
                     />
-                    <Box sx={{ flex: 1 }}></Box>
                     <Box
                         sx={{
                             display: 'flex',
