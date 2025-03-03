@@ -49,7 +49,7 @@ export default function CoOp({
                     color: 'white',
                 }}
             >
-                <Box sx={{ padding: '8px' }}>
+                <Box sx={{ padding: '8px', fontSize: '60px' }}>
                     CO-OP: {coopertition ? 'YES' : 'NO'}
                 </Box>
             </Item>

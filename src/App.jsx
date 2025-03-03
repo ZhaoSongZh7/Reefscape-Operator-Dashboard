@@ -268,8 +268,18 @@ function App() {
                         flexDirection: 'column',
                         justifyContent: 'center',
                         rowGap: '20px',
+                        userSelect: 'none'
                     }}
                 >
+                    <Item
+                        sx={{
+                            border: 1,
+                        }}
+                    >
+                        <Box sx={{ padding: '8px 15px 8px 15px', fontSize: '55px' }}>
+                            Current Level: {currentLevel}
+                        </Box>
+                    </Item>
                     <CoralTracker
                         useLocalStorage={useLocalStorage}
                         levelOneCount={levelOneCount}
@@ -340,16 +350,6 @@ function App() {
                         userSelect: 'none'
                     }}
                 >
-                    <Item
-                        sx={{
-                            border: 1,
-                            marginBottom: '10px',
-                        }}
-                    >
-                        <Box sx={{ padding: '8px' }}>
-                            Current Level: {currentLevel}
-                        </Box>
-                    </Item>
                     <CoOp
                         useLocalStorage={useLocalStorage}
                         Item={Item}
