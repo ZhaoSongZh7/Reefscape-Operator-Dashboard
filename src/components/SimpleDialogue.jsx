@@ -16,7 +16,7 @@ export const SimpleDialog = ({ open, close, resetStates }) => {
   
     return (
       <Dialog open={open} fullWidth={true} sx={{ userSelect: 'none', textAlign: 'center'}}>
-        <DialogTitle fontSize={60}>Are you sure?
+        <DialogTitle sx={{ fontSize: "60px", color: '#645858'}}>Are you sure?
           <Box sx={{ fontSize: "20px", color: "crimson"}}>
             ALL CORAL AND ALGAE WILL BE CLEARED!
           </Box>
