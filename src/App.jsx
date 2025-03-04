@@ -1,20 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
-import reactLogo from './assets/react.svg';
-import { styled } from '@mui/material/styles';
-import viteLogo from '/vite.svg';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
+import { styled } from '@mui/material/styles';
 import axios from 'axios';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
+import { useCallback, useEffect, useState } from 'react';
 
-import './App.css';
 import { Box } from '@mui/material';
+import './App.css';
+import CoOp from './components/CoOp';
 import CoralTracker from './components/CoralTracker';
 import Reef from './components/Reef';
-import CoOp from './components/CoOp';
 import { SimpleDialog } from './components/SimpleDialogue';
 
 function App() {
@@ -34,6 +28,20 @@ function App() {
 
         return [storedValue, setStoredValue];
     }
+
+    useEffect(() => {
+        const handleContextMenu = (event) => {
+            event.preventDefault();
+        };
+
+        document.addEventListener('contextmenu', handleContextMenu);
+
+        return () => {
+            document.removeEventListener('contextmenu', handleContextMenu);
+        };
+    }, []);
+
+    const [override, setOverride] = useState(false);
 
     function getDataFromServer() {
         axios({
@@ -134,12 +142,19 @@ function App() {
             false,
         ]
     );
+
     const [coOpArray, setCoOpArray] = useLocalStorage('coOpArray', [
         false,
         false,
         false,
         false,
     ]);
+
+    const [coopertition, setCoopertition] = useLocalStorage(
+        'Coopertition',
+        false
+    );
+
     const [dsMinutes, setDsMinutes] = useLocalStorage('dsMinutes', 0);
     const [dsSeconds, setDsSeconds] = useLocalStorage('dsSeconds', 0);
 
@@ -163,8 +178,7 @@ function App() {
         false
     );
 
-    const [open, setOpen] = useLocalStorage("clearDialog", false);
-
+    const [open, setOpen] = useLocalStorage('resetDialog', false);
 
     const sendDataToServer = useCallback(async () => {
         try {
@@ -173,15 +187,26 @@ function App() {
                 levelThreeArray,
                 levelFourArray,
                 algaeArray,
+                override,
             });
 
             console.log('Response from server:', response.data);
         } catch (error) {
             console.error('Error sending data to server:', error);
         }
-    }, [levelTwoArray, levelThreeArray, levelFourArray, algaeArray]);
+    }, [levelTwoArray, levelThreeArray, levelFourArray, algaeArray, override]);
 
-    
+    const obtainedCoralRP = () => {
+        let levelsDone = coOpArray.filter((selected) => selected).length;
+
+        if (coopertition && levelsDone >= 3) {
+            return true;
+        } else if (levelsDone === 4) {
+            return true;
+        }
+        return false;
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -189,7 +214,6 @@ function App() {
     const handleClose = () => {
         setOpen(false);
     };
-
 
     useEffect(() => {
         sendDataToServer();
@@ -268,7 +292,7 @@ function App() {
                         flexDirection: 'column',
                         justifyContent: 'center',
                         rowGap: '20px',
-                        userSelect: 'none'
+                        userSelect: 'none',
                     }}
                 >
                     <Item
@@ -276,7 +300,12 @@ function App() {
                             border: 1,
                         }}
                     >
-                        <Box sx={{ padding: '8px 15px 8px 15px', fontSize: '55px' }}>
+                        <Box
+                            sx={{
+                                padding: '8px 15px 8px 15px',
+                                fontSize: '55px',
+                            }}
+                        >
                             Current Level: {currentLevel}
                         </Box>
                     </Item>
@@ -341,15 +370,54 @@ function App() {
                         coOpArray={coOpArray}
                         setCoOpArray={setCoOpArray}
                     />
+                    <Button
+                        sx={{
+                            position: 'absolute',
+                            bottom: 0,
+                            fontSize: '40px',
+                            border: override
+                                ? '1px solid crimson'
+                                : '1px solid dodgerblue',
+                            backgroundColor: override
+                                ? 'crimson'
+                                : 'transparent',
+                                color: override
+                                ? 'white'
+                                : 'dodgerblue',
+                        }}
+                        onTouchStart={() => {
+                            setOverride(true);
+                        }}
+                        onTouchEnd={() => {
+                            setOverride(false);
+                        }}
+                    >
+                        Override
+                    </Button>
                 </Box>
                 <Box
                     sx={{
                         display: 'flex',
                         flex: 0.25,
                         flexDirection: 'column',
-                        userSelect: 'none'
+                        userSelect: 'none',
+                        justifyContent: 'space-between',
                     }}
                 >
+                    <Item
+                        sx={{
+                            width: '100%',
+                            bgcolor: obtainedCoralRP()
+                                ? 'limegreen'
+                                : 'crimson',
+                            color: 'white',
+                        }}
+                    >
+                        <Box sx={{ padding: '8px', fontSize: '45px' }}>
+                            Obtained Coral RP:{' '}
+                            {obtainedCoralRP() ? 'YES' : 'NO'}
+                        </Box>
+                    </Item>
                     <CoOp
                         useLocalStorage={useLocalStorage}
                         Item={Item}
@@ -366,13 +434,16 @@ function App() {
                             rowGap: '10px',
                         }}
                     >
-                        <Button variant="outlined" onClick={handleClickOpen}
-                        sx={{
-                            fontSize: '25px',
-                            border: 1,
-                            borderColor: 'dodgeyblue',
-                        }}>
-                            Clear
+                        <Button
+                            variant='outlined'
+                            onClick={handleClickOpen}
+                            sx={{
+                                fontSize: '25px',
+                                border: 1,
+                                borderColor: 'dodgeyblue',
+                            }}
+                        >
+                            Reset
                         </Button>
                         <SimpleDialog
                             open={open}

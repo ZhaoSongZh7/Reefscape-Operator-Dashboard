@@ -21,25 +21,13 @@ export default function CoOp({
         setCoopertition(!coopertition);
     };
 
-    const obtainedCoralRP = () => {
-        let levelsDone = coOpArray.filter((selected) => selected).length;
-
-        if (coopertition && levelsDone >= 3) {
-            return true;
-        } else if (levelsDone === 4) {
-            return true;
-        }
-        return false;
-    };
-
     return (
         <Box
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 rowGap: '10px',
-                alignItems: 'end',
-                flex: 1,
+                alignItems: 'center',
             }}
         >
             <Item
@@ -49,19 +37,8 @@ export default function CoOp({
                     color: 'white',
                 }}
             >
-                <Box sx={{ padding: '8px', fontSize: '60px' }}>
+                <Box sx={{ padding: '8px', fontSize: '45px' }}>
                     CO-OP: {coopertition ? 'YES' : 'NO'}
-                </Box>
-            </Item>
-            <Item
-                sx={{
-                    width: '100%',
-                    bgcolor: obtainedCoralRP() ? 'limegreen' : 'crimson',
-                    color: 'white',
-                }}
-            >
-                <Box sx={{ padding: '8px' }}>
-                    Obtained Coral RP: {obtainedCoralRP() ? 'YES' : 'NO'}
                 </Box>
             </Item>
             <Button

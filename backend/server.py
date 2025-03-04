@@ -40,12 +40,14 @@ def update_data():
         level_three_array = data.get("levelThreeArray", [])
         level_four_array = data.get("levelFourArray", [])
         algae_array = data.get("algaeArray", [])
+        override = data.get("override", False)
 
         # Retrieve previous values from NetworkTables
         prev_level_two = get_previous_data("Level 2 Coral Array")
         prev_level_three = get_previous_data("Level 3 Coral Array")
         prev_level_four = get_previous_data("Level 4 Coral Array")
         prev_algae_array = get_previous_data("Algae Array")
+        prev_override = get_previous_data("Override")
 
         # Update SmartDashboard
         # Log only the changed values and update NetworkTables
@@ -53,6 +55,7 @@ def update_data():
         log_changes("Level 3 Coral Array", prev_level_three, level_three_array)
         log_changes("Level 4 Coral Array", prev_level_four, level_four_array)
         log_changes("Algae Array", prev_algae_array, algae_array)
+        log_changes("Override", prev_override, override)
 
         return jsonify({"message": "Data received successfully!", "data": data})
 

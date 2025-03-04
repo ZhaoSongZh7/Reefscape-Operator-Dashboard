@@ -17,8 +17,8 @@ export default function Reef({
     algaeArray,
     setAlgaeArray,
 }) {
-    const coralRadius = 250; // Distance of corals from center
-    const algaeRadius = 130; // Algae closer to center
+    const coralRadius = 350; // Distance of corals from center
+    const algaeRadius = 170; // Algae closer to center
 
     // Custom angles for coral (aligned with purple branches)
     // const coralAngles = [15, 45, 75, 105, 135, 165, 195, 225, 255, 285, 315, 345];
@@ -84,7 +84,7 @@ export default function Reef({
                     userSelect: 'none',
                     objectFit: 'contain',
                     margin: '0 auto',
-                    maxHeight: 'calc(100vh - 75px)',
+                    maxHeight: 'calc(100vh - 175px)',
                 }}
             />
             {/* Coral Positions */}
@@ -107,7 +107,7 @@ export default function Reef({
                         sx={{
                             borderRadius: '50%',
                             position: 'absolute',
-                            top: `calc(57% + ${y}px)`,
+                            top: `calc(50% + ${y}px)`,
                             left: `calc(50% + ${x}px)`,
                             transform: 'translate(-50%, -50%)',
                             border: 2,
@@ -115,7 +115,7 @@ export default function Reef({
                             bgcolor: isSelected ? 'crimson' : 'limegreen',
                         }}
                     >
-                        <img src={coral} width={85} height={85} />
+                        <img src={coral} width={110} height={110} />
                     </Button>
                 );
             })}
@@ -133,7 +133,7 @@ export default function Reef({
                         sx={{
                             borderRadius: '50%',
                             position: 'absolute',
-                            top: `calc(58% + ${y}px)`,
+                            top: `calc(51% + ${y}px)`,
                             left: `calc(50% + ${x}px)`,
                             transform: 'translate(-50%, -50%)',
                             border: 2,
@@ -145,8 +145,8 @@ export default function Reef({
                     >
                         <img
                             src={algae}
-                            width={index % 2 == 0 ? 90 : 70}
-                            height={index % 2 == 0 ? 90 : 70}
+                            width={index % 2 == 0 ? 120 : 100}
+                            height={index % 2 == 0 ? 120 : 100}
                         />
                     </Button>
                 );
