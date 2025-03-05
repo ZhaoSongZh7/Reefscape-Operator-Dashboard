@@ -13,7 +13,6 @@ export default function Reef({
     levelFourArray,
     setLevelFourArray,
     currentLevel,
-    setCurrentLevel,
     algaeArray,
     setAlgaeArray,
 }) {

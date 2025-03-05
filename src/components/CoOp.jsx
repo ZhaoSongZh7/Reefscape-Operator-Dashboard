@@ -1,22 +1,13 @@
-import { Box, Button, colors } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import notCoop from '../assets/not-coop.png';
+import { Box, Button } from '@mui/material';
+import React from 'react';
 import coOp from '../assets/coop.png';
+import notCoop from '../assets/not-coop.png';
 
 export default function CoOp({
-    useLocalStorage,
     Item,
-    coOpArray,
-    setCoOpArray,
-    levelTwoArray,
-    levelThreeArray,
-    levelFourArray,
+    coopertition,
+    setCoopertition,
 }) {
-    const [coopertition, setCoopertition] = useLocalStorage(
-        'Coopertition',
-        false
-    );
-
     const handleCoopClick = () => {
         setCoopertition(!coopertition);
     };
@@ -35,10 +26,11 @@ export default function CoOp({
                     width: '100%',
                     bgcolor: coopertition ? 'limegreen' : 'crimson',
                     color: 'white',
+                    minHeight: '145px'
                 }}
             >
                 <Box sx={{ padding: '8px', fontSize: '45px' }}>
-                    CO-OP: {coopertition ? 'YES' : 'NO'}
+                    CO-OP: <br></br>{coopertition ? 'YES' : 'NO'}
                 </Box>
             </Item>
             <Button

@@ -80,6 +80,7 @@ function App() {
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: '#fff',
         ...theme.typography.body2,
+        boxShadow: 'none',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: '40px',
@@ -143,13 +144,6 @@ function App() {
         ]
     );
 
-    const [coOpArray, setCoOpArray] = useLocalStorage('coOpArray', [
-        false,
-        false,
-        false,
-        false,
-    ]);
-
     const [coopertition, setCoopertition] = useLocalStorage(
         'Coopertition',
         false
@@ -197,7 +191,19 @@ function App() {
     }, [levelTwoArray, levelThreeArray, levelFourArray, algaeArray, override]);
 
     const obtainedCoralRP = () => {
-        let levelsDone = coOpArray.filter((selected) => selected).length;
+        let levelsDone = 0;
+        if (levelFourArray.filter((e) => e).length >= 5) {
+            levelsDone += 1;
+        }
+        if (levelThreeArray.filter((e) => e).length >= 5) {
+            levelsDone += 1;
+        }
+        if (levelTwoArray.filter((e) => e).length >= 5) {
+            levelsDone += 1;
+        }
+        if (levelOneCount >= 5) {
+            levelsDone += 1;
+        }
 
         if (coopertition && levelsDone >= 3) {
             return true;
@@ -310,19 +316,13 @@ function App() {
                         </Box>
                     </Item>
                     <CoralTracker
-                        useLocalStorage={useLocalStorage}
                         levelOneCount={levelOneCount}
                         setLevelOneCount={setLevelOneCount}
                         levelTwoArray={levelTwoArray}
-                        setLevelTwoArray={setLevelTwoArray}
                         levelThreeArray={levelThreeArray}
-                        setLevelThreeArray={setLevelThreeArray}
                         levelFourArray={levelFourArray}
-                        setLevelFourArray={setLevelFourArray}
                         currentLevel={currentLevel}
                         setCurrentLevel={setCurrentLevel}
-                        coOpArray={coOpArray}
-                        setCoOpArray={setCoOpArray}
                     />
                 </Box>
                 <Box
@@ -337,7 +337,6 @@ function App() {
                     <Item
                         sx={{
                             fontSize: '40px',
-                            border: 1,
                             padding: '12px 22px',
                             color:
                                 dsMinutes <= 0 && dsSeconds <= 20
@@ -364,11 +363,8 @@ function App() {
                         levelFourArray={levelFourArray}
                         setLevelFourArray={setLevelFourArray}
                         currentLevel={currentLevel}
-                        setCurrentLevel={setCurrentLevel}
                         algaeArray={algaeArray}
                         setAlgaeArray={setAlgaeArray}
-                        coOpArray={coOpArray}
-                        setCoOpArray={setCoOpArray}
                     />
                     <Button
                         sx={{
@@ -381,9 +377,7 @@ function App() {
                             backgroundColor: override
                                 ? 'crimson'
                                 : 'transparent',
-                                color: override
-                                ? 'white'
-                                : 'dodgerblue',
+                            color: override ? 'white' : 'dodgerblue',
                         }}
                         onTouchStart={() => {
                             setOverride(true);
@@ -411,22 +405,15 @@ function App() {
                                 ? 'limegreen'
                                 : 'crimson',
                             color: 'white',
+                            minHeight: '210px'
                         }}
                     >
                         <Box sx={{ padding: '8px', fontSize: '45px' }}>
-                            Obtained Coral RP:{' '}
+                            Obtained Coral RP: <br></br>
                             {obtainedCoralRP() ? 'YES' : 'NO'}
                         </Box>
                     </Item>
-                    <CoOp
-                        useLocalStorage={useLocalStorage}
-                        Item={Item}
-                        levelTwoArray={levelTwoArray}
-                        levelThreeArray={levelThreeArray}
-                        levelFourArray={levelFourArray}
-                        coOpArray={coOpArray}
-                        setCoOpArray={setCoOpArray}
-                    />
+                    <CoOp Item={Item} coopertition={coopertition} setCoopertition={setCoopertition} />
                     <Box
                         sx={{
                             display: 'flex',

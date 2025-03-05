@@ -1,33 +1,15 @@
 import { Box, Button } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 export default function CoralTracker({
-    levelTwoArray,
-    setLevelTwoArray,
-    levelThreeArray,
-    setLevelThreeArray,
-    levelFourArray,
-    setLevelFourArray,
-    currentLevel,
-    setCurrentLevel,
-    useLocalStorage,
-    coOpArray,
-    setCoOpArray,
     levelOneCount,
     setLevelOneCount,
+    levelTwoArray,
+    levelThreeArray,
+    levelFourArray,
+    currentLevel,
+    setCurrentLevel,
 }) {
-    const updateCoOpArray = (array, level) => {
-        setCoOpArray((prevArray) => {
-            const updatedArray = [...prevArray];
-            updatedArray[level - 1] =
-                level === 1
-                    ? levelOneCount >= 5
-                    : array.filter((selected) => selected).length >= 5;
-            return updatedArray;
-        });
-    };
-
     const getSelectedCount = (level) => {
         if (level === 2) {
             return levelTwoArray.filter((selected) => selected).length;
@@ -38,22 +20,6 @@ export default function CoralTracker({
         }
         return 0;
     };
-
-    useEffect(() => {
-        updateCoOpArray(levelTwoArray, 2);
-    }, [levelTwoArray]);
-
-    useEffect(() => {
-        updateCoOpArray(levelThreeArray, 3);
-    }, [levelThreeArray]);
-
-    useEffect(() => {
-        updateCoOpArray(levelFourArray, 4);
-    }, [levelFourArray]);
-
-    useEffect(() => {
-        updateCoOpArray(coOpArray, 1);
-    }, [levelOneCount]);
 
     return (
         <>
@@ -87,12 +53,17 @@ export default function CoralTracker({
                                 : 'transparent',
                     }}
                 >
-                    {getSelectedCount(4 - index) !== 12
-                        ? getSelectedCount(4 - index)
-                        : 'DONE!'}
+                    {getSelectedCount(4 - index) === 12
+                        ? 'ALL DONE!'
+                        : getSelectedCount(4 - index) >= 5
+                        ? `${getSelectedCount(4 - index)} ✅`
+                        : getSelectedCount(4 - index)}
                 </Button>
             ))}
-            <Box position={'relative'} sx={{ display: 'flex', flex: 1, userSelect: 'none' }}>
+            <Box
+                position={'relative'}
+                sx={{ display: 'flex', flex: 1, userSelect: 'none' }}
+            >
                 <Box
                     sx={{
                         fontWeight: 'bold',
@@ -105,7 +76,7 @@ export default function CoralTracker({
                         transform: 'translate(-50%, -50%)',
                     }}
                 >
-                    {levelOneCount}
+                    {levelOneCount >= 5 ? `${levelOneCount} ✅` : levelOneCount}
                 </Box>
                 <Button
                     onClick={() => {
@@ -136,7 +107,7 @@ export default function CoralTracker({
                         color: 'limegreen',
                         borderRadius: '0px 10px 10px 0px',
                         border: 1,
-                        borderLeft: 0
+                        borderLeft: 0,
                     }}
                 >
                     +
