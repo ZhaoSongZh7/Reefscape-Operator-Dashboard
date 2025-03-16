@@ -115,6 +115,18 @@ export default function Reef({
                         }}
                     >
                         <img src={coral} width={110} height={110} />
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                fontSize: '90px',
+                                color: 'black' 
+                            }}
+                        >
+                            {isSelected ? 'X' : ''}
+                        </Box>
                     </Button>
                 );
             })}
@@ -147,6 +159,18 @@ export default function Reef({
                             width={index % 2 == 0 ? 120 : 100}
                             height={index % 2 == 0 ? 120 : 100}
                         />
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                fontSize: '90px',
+                                color: 'black' 
+                            }}
+                        >
+                            {algaeArray[index] ? 'X' : ''}
+                        </Box>
                     </Button>
                 );
             })}
