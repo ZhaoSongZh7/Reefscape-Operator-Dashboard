@@ -112,21 +112,13 @@ export default function Reef({
                             border: 2,
                             borderColor: 'black',
                             bgcolor: isSelected ? 'crimson' : 'limegreen',
+                            width: 130,
+                            height: 126,
                         }}
                     >
-                        <img src={coral} width={110} height={110} />
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                fontSize: '90px',
-                                color: 'black' 
-                            }}
-                        >
-                            {isSelected ? 'X' : ''}
-                        </Box>
+                        {!isSelected && (
+                            <img src={coral} width={110} height={110} />
+                        )}
                     </Button>
                 );
             })}
@@ -152,25 +144,17 @@ export default function Reef({
                             bgcolor: algaeArray[index]
                                 ? 'crimson'
                                 : 'limegreen',
+                            width: index % 2 == 0 ? 140 : 120,
+                            height: index % 2 == 0 ? 136 : 116,
                         }}
                     >
-                        <img
-                            src={algae}
-                            width={index % 2 == 0 ? 120 : 100}
-                            height={index % 2 == 0 ? 120 : 100}
-                        />
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                fontSize: '90px',
-                                color: 'black' 
-                            }}
-                        >
-                            {algaeArray[index] ? 'X' : ''}
-                        </Box>
+                        {!algaeArray[index] && (
+                            <img
+                                src={algae}
+                                width={index % 2 == 0 ? 120 : 100}
+                                height={index % 2 == 0 ? 120 : 100}
+                            />
+                        )}
                     </Button>
                 );
             })}
