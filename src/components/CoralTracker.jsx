@@ -39,7 +39,7 @@ export default function CoralTracker({
                             currentLevel === 4 - index ||
                             getSelectedCount(4 - index) == 12
                                 ? 0
-                                : 1,
+                                : 2,
                         color:
                             currentLevel === 4 - index ||
                             getSelectedCount(4 - index) == 12
@@ -90,7 +90,7 @@ export default function CoralTracker({
                         color: 'limegreen',
                         fontSize: '50px',
                         borderRadius: '10px 0px 0px 10px',
-                        border: 1,
+                        border: 2,
                         borderRight: 0,
                     }}
                 >
@@ -106,7 +106,7 @@ export default function CoralTracker({
                         fontWeight: 'bold',
                         color: 'limegreen',
                         borderRadius: '0px 10px 10px 0px',
-                        border: 1,
+                        border: 2,
                         borderLeft: 0,
                     }}
                 >

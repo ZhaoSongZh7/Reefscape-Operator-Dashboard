@@ -303,7 +303,7 @@ function App() {
                 >
                     <Item
                         sx={{
-                            border: 1,
+                            border: 2,
                         }}
                     >
                         <Box
@@ -372,8 +372,8 @@ function App() {
                             bottom: 0,
                             fontSize: '40px',
                             border: override
-                                ? '1px solid crimson'
-                                : '1px solid dodgerblue',
+                                ? '2px solid crimson'
+                                : '2px solid dodgerblue',
                             backgroundColor: override
                                 ? 'crimson'
                                 : 'transparent',
@@ -426,7 +426,7 @@ function App() {
                             onClick={handleClickOpen}
                             sx={{
                                 fontSize: '25px',
-                                border: 1,
+                                border: 2,
                                 borderColor: 'dodgeyblue',
                             }}
                         >
