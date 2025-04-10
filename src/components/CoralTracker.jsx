@@ -55,7 +55,7 @@ export default function CoralTracker({
                 >
                     {getSelectedCount(4 - index) === 12
                         ? 'ALL DONE!'
-                        : getSelectedCount(4 - index) >= 5
+                        : getSelectedCount(4 - index) >= 7
                         ? `${getSelectedCount(4 - index)} ✅`
                         : getSelectedCount(4 - index)}
                 </Button>
@@ -76,7 +76,7 @@ export default function CoralTracker({
                         transform: 'translate(-50%, -50%)',
                     }}
                 >
-                    {levelOneCount >= 5 ? `${levelOneCount} ✅` : levelOneCount}
+                    {levelOneCount >= 7 ? `${levelOneCount} ✅` : levelOneCount}
                 </Box>
                 <Button
                     onClick={() => {

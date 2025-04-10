@@ -192,16 +192,16 @@ function App() {
 
     const obtainedCoralRP = () => {
         let levelsDone = 0;
-        if (levelFourArray.filter((e) => e).length >= 5) {
+        if (levelFourArray.filter((e) => e).length >= 7) {
             levelsDone += 1;
         }
-        if (levelThreeArray.filter((e) => e).length >= 5) {
+        if (levelThreeArray.filter((e) => e).length >= 7) {
             levelsDone += 1;
         }
-        if (levelTwoArray.filter((e) => e).length >= 5) {
+        if (levelTwoArray.filter((e) => e).length >= 7) {
             levelsDone += 1;
         }
-        if (levelOneCount >= 5) {
+        if (levelOneCount >= 7) {
             levelsDone += 1;
         }
 
