@@ -277,6 +277,7 @@ function App() {
             false,
         ]);
         setAlgaeArray([false, false, false, false, false, false]);
+        setCoopertition(false);
     };
 
     return (
